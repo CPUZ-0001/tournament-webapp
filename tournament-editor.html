@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tournament Editor</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <h2>Update Tournament Card</h2>
+  <form id="form">
+    <label>Mode:</label>
+    <select name="mode">
+      <option value="solo">Solo</option>
+      <option value="duo">Duo</option>
+      <option value="squad">Squad</option>
+      <option value="4v4">4v4</option>
+      <option value="8v8">8v8</option>
+      <option value="tournament">Tournament</option>
+    </select><br>
+    <label>Date:</label><input name="date" type="date"><br>
+    <label>Time:</label><input name="time" type="time"><br>
+    <label>Map:</label><input name="map"><br>
+    <label>Perspective:</label><input name="perspective"><br>
+    <label>Prize Pool:</label><input name="prize_pool"><br>
+    <label>Per Kill:</label><input name="per_kill"><br>
+    <label>Join Fees:</label><input name="join_fees"><br>
+    <button type="submit">Save</button>
+  </form>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+    document.getElementById("form").onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = Object.fromEntries(new FormData(e.target).entries());
+      tg.sendData(JSON.stringify(formData));
+      tg.close();
+    };
+  </script>
+</body>
+</html>
