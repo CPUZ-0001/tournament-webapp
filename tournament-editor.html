@@ -1,40 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Tournament Editor</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Tournament Card</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      width: 340px;
+    }
+    .card h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .card input,
+    .card select {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+    .card button {
+      width: 100%;
+      background-color: #007BFF;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .card button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  <script>
+    async function submitData() {
+      const gameDetails = {
+        game: document.getElementById('game').value,
+        mode: document.getElementById('mode').value,
+        date: document.getElementById('date').value,
+        time: document.getElementById('time').value,
+        prizePool: document.getElementById('prizePool').value,
+        perKill: document.getElementById('perKill').value,
+        joinFees: document.getElementById('joinFees').value,
+        map: document.getElementById('map').value,
+        perspective: document.getElementById('perspective').value,
+        imageUrl: document.getElementById('imageUrl').value
+      };
+
+      const response = await fetch('https://your-api-url.com/api/create-tournament', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(gameDetails)
+      });
+
+      if (response.ok) {
+        alert('Tournament created successfully!');
+      } else {
+        alert('Failed to create tournament.');
+      }
+    }
+  </script>
 </head>
 <body>
-  <h2>Update Tournament Card</h2>
-  <form id="form">
-    <label>Mode:</label>
-    <select name="mode">
+  <div class="card">
+    <h1>Create Tournament</h1>
+    <input id="game" type="text" placeholder="Game (e.g. BGMI / Free Fire)" required />
+    
+    <select id="mode">
       <option value="solo">Solo</option>
       <option value="duo">Duo</option>
       <option value="squad">Squad</option>
       <option value="4v4">4v4</option>
       <option value="8v8">8v8</option>
       <option value="tournament">Tournament</option>
-    </select><br>
-    <label>Date:</label><input name="date" type="date"><br>
-    <label>Time:</label><input name="time" type="time"><br>
-    <label>Map:</label><input name="map"><br>
-    <label>Perspective:</label><input name="perspective"><br>
-    <label>Prize Pool:</label><input name="prize_pool"><br>
-    <label>Per Kill:</label><input name="per_kill"><br>
-    <label>Join Fees:</label><input name="join_fees"><br>
-    <button type="submit">Save</button>
-  </form>
-
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-    document.getElementById("form").onsubmit = async (e) => {
-      e.preventDefault();
-      const formData = Object.fromEntries(new FormData(e.target).entries());
-      tg.sendData(JSON.stringify(formData));
-      tg.close();
-    };
-  </script>
+    </select>
+    
+    <input id="date" type="date" required />
+    <input id="time" type="time" required />
+    <input id="map" type="text" placeholder="Map Name" required />
+    
+    <select id="perspective">
+      <option value="TPP">TPP</option>
+      <option value="FPP">FPP</option>
+    </select>
+    
+    <input id="prizePool" type="text" placeholder="Prize Pool" required />
+    <input id="perKill" type="text" placeholder="Per Kill Reward" required />
+    <input id="joinFees" type="text" placeholder="Join Fees" required />
+    <input id="imageUrl" type="url" placeholder="Image URL" required />
+    
+    <button onclick="submitData()">Submit</button>
+  </div>
 </body>
 </html>
