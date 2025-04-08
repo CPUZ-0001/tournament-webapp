@@ -49,8 +49,14 @@
     }
   </style>
   <script>
+    function generateTournamentId() {
+      return 'TID-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+    }
+
     async function submitData() {
+      const tournamentId = generateTournamentId();
       const gameDetails = {
+        tournamentId,
         game: document.getElementById('game').value,
         mode: document.getElementById('mode').value,
         date: document.getElementById('date').value,
@@ -70,9 +76,9 @@
       });
 
       if (response.ok) {
-        alert('Tournament created successfully!');
+        alert(`✅ Tournament Created!\nID: ${tournamentId}`);
       } else {
-        alert('Failed to create tournament.');
+        alert('❌ Failed to create tournament.');
       }
     }
   </script>
@@ -102,7 +108,7 @@
     
     <input id="prizePool" type="text" placeholder="Prize Pool" required />
     <input id="perKill" type="text" placeholder="Per Kill Reward" required />
-    <input id="joinFees" type="text" placeholder="Join Fees" required />
+    <input id="joinFees" type="text" placeholder="Join Fee (Amount or 'FREE')" required />
     <input id="imageUrl" type="url" placeholder="Image URL" required />
     
     <button onclick="submitData()">Submit</button>
