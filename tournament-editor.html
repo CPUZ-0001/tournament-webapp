@@ -1,117 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Create Tournament Card</title>
+  <meta charset="UTF-8">
+  <title>Create Tournament</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .card {
-      background: #fff;
+      background-color: #121212;
+      color: #fff;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      width: 340px;
     }
-    .card h1 {
+    h2 {
       text-align: center;
-      margin-bottom: 20px;
+      color: #00ff99;
     }
-    .card input,
-    .card select {
+    label {
+      display: block;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    input, select {
       width: 100%;
       padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1em;
-    }
-    .card button {
-      width: 100%;
-      background-color: #007BFF;
-      color: white;
-      padding: 12px;
+      margin-top: 5px;
       border: none;
-      border-radius: 6px;
-      font-size: 1em;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    input, select {
+      background-color: #2a2a2a;
+      color: #fff;
+    }
+    button {
+      margin-top: 25px;
+      width: 100%;
+      background-color: #00ff99;
+      color: #000;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
       cursor: pointer;
     }
-    .card button:hover {
-      background-color: #0056b3;
+    button:hover {
+      background-color: #00cc77;
     }
   </style>
-  <script>
-    function generateTournamentId() {
-      return 'TID-' + Math.random().toString(36).substr(2, 8).toUpperCase();
-    }
-
-    async function submitData() {
-      const tournamentId = generateTournamentId();
-      const gameDetails = {
-        tournamentId,
-        game: document.getElementById('game').value,
-        mode: document.getElementById('mode').value,
-        date: document.getElementById('date').value,
-        time: document.getElementById('time').value,
-        prizePool: document.getElementById('prizePool').value,
-        perKill: document.getElementById('perKill').value,
-        joinFees: document.getElementById('joinFees').value,
-        map: document.getElementById('map').value,
-        perspective: document.getElementById('perspective').value,
-        imageUrl: document.getElementById('imageUrl').value
-      };
-
-      const response = await fetch('http://127.0.0.1:5000/api/create-tournament', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(gameDetails)
-      });
-
-      if (response.ok) {
-        alert(`✅ Tournament Created!\nID: ${tournamentId}`);
-      } else {
-        alert('❌ Failed to create tournament.');
-      }
-    }
-  </script>
 </head>
 <body>
-  <div class="card">
-    <h1>Create Tournament</h1>
-    <input id="game" type="text" placeholder="Game (e.g. BGMI / Free Fire)" required />
-    
-    <select id="mode">
-      <option value="solo">Solo</option>
-      <option value="duo">Duo</option>
-      <option value="squad">Squad</option>
-      <option value="4v4">4v4</option>
-      <option value="8v8">8v8</option>
-      <option value="tournament">Tournament</option>
-    </select>
-    
-    <input id="date" type="date" required />
-    <input id="time" type="time" required />
-    <input id="map" type="text" placeholder="Map Name" required />
-    
-    <select id="perspective">
-      <option value="TPP">TPP</option>
-      <option value="FPP">FPP</option>
-    </select>
-    
-    <input id="prizePool" type="text" placeholder="Prize Pool" required />
-    <input id="perKill" type="text" placeholder="Per Kill Reward" required />
-    <input id="joinFees" type="text" placeholder="Join Fee (Amount or 'FREE')" required />
-    <input id="imageUrl" type="url" placeholder="Image URL" required />
-    
-    <button onclick="submitData()">Submit</button>
-  </div>
+  <h2>📋 Create Tournament</h2>
+
+  <label for="game">🎮 Game</label>
+  <select id="game">
+    <option value="BGMI">BGMI</option>
+    <option value="FreeFire">Free Fire</option>
+  </select>
+
+  <label for="mode">🎯 Mode</label>
+  <select id="mode">
+    <option value="solo">Solo</option>
+    <option value="duo">Duo</option>
+    <option value="squad">Squad</option>
+    <option value="4v4">4v4</option>
+    <option value="8v8">8v8</option>
+    <option value="tournament">Tournament</option>
+  </select>
+
+  <label for="date">📅 Date</label>
+  <input type="date" id="date" required>
+
+  <label for="time">⏰ Time</label>
+  <input type="time" id="time" required>
+
+  <label for="map">🗺 Map</label>
+  <input type="text" id="map" placeholder="e.g., Erangel" required>
+
+  <label for="perspective">🔭 Perspective</label>
+  <select id="perspective">
+    <option value="TPP">TPP</option>
+    <option value="FPP">FPP</option>
+  </select>
+
+  <label for="prize_pool">🏆 Prize Pool</label>
+  <input type="number" id="prize_pool" placeholder="e.g., 1000" required>
+
+  <label for="per_kill">☠️ Per Kill Reward</label>
+  <input type="number" id="per_kill" placeholder="e.g., 10" required>
+
+  <label for="join_fee">💸 Join Fee</label>
+  <input type="text" id="join_fee" placeholder="e.g., 30 or Free" required>
+
+  <button id="submit-button">✅ Submit Tournament</button>
+
+  <script>
+    document.getElementById("submit-button").addEventListener("click", () => {
+      const data = {
+        game: document.getElementById("game").value,
+        mode: document.getElementById("mode").value,
+        date: document.getElementById("date").value,
+        time: document.getElementById("time").value,
+        map: document.getElementById("map").value,
+        perspective: document.getElementById("perspective").value,
+        prize_pool: document.getElementById("prize_pool").value,
+        per_kill: document.getElementById("per_kill").value,
+        join_fee: document.getElementById("join_fee").value
+      };
+
+      // Send form data to bot
+      Telegram.WebApp.sendData(JSON.stringify(data));
+      Telegram.WebApp.close(); // Optional: closes form
+    });
+  </script>
 </body>
 </html>
